@@ -91,12 +91,12 @@ impl ContextSystemParams<'_, '_> {
     fn window_context(&mut self, window: Entity) -> Option<EguiContextQueryItem> {
         match self.contexts.get_mut(window) {
             Ok(context) => Some(context),
-            Err(err @ QueryEntityError::AliasedMutability(_)) => {
+            Err(err @ QueryEntityError::AliasedMutability(..)) => {
                 panic!("Failed to get an Egui context for a window ({window:?}): {err:?}");
             }
             Err(
-                err @ QueryEntityError::NoSuchEntity(_)
-                | err @ QueryEntityError::QueryDoesNotMatch(_, _),
+                err @ QueryEntityError::NoSuchEntity(..)
+                | err @ QueryEntityError::QueryDoesNotMatch(..),
             ) => {
                 bevy_log::error!(
                     "Failed to get an Egui context for a window ({window:?}): {err:?}",
