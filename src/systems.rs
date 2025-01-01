@@ -87,8 +87,8 @@ pub struct ContextSystemParams<'w, 's> {
     _marker: PhantomData<&'s ()>,
 }
 
-impl ContextSystemParams<'_, '_> {
-    fn window_context(&mut self, window: Entity) -> Option<EguiContextQueryItem> {
+impl<'w, 's> ContextSystemParams<'w, 's> {
+    fn window_context(&mut self, window: Entity) -> Option<EguiContextQueryItem<'w>> {
         match self.contexts.get_mut(window) {
             Ok(context) => Some(context),
             Err(err @ QueryEntityError::AliasedMutability(..)) => {
